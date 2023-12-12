@@ -5,7 +5,7 @@ GROUP(-lgcc -lc -lnosys)
 
 MEMORY
 {
-  FLASH (rx)     : ORIGIN = 0x26000, LENGTH = 0x6D000 - 0x26000
+  FLASH (rx)     : ORIGIN = 0x26000, LENGTH = 0x59000 - 0x26000
 
   /* SRAM required by S132 depend on
    * - Attribute Table Size
@@ -14,7 +14,9 @@ MEMORY
    * - Concurrent connection peripheral + central + secure links
    * - Event Len, HVN queue, Write CMD queue
    */ 
-  RAM (rwx) :  ORIGIN = 0x20003600, LENGTH = 0x20010000 - 0x20003600
+	RAM (rwx) :  ORIGIN = 0x20006000, LENGTH = 0x3A000
+	uicr_bootloader_start_address (r) : ORIGIN = 0x00000FF8, LENGTH = 0x4	
+	DBL_RESET (rwx) :  ORIGIN = 0x20006000, LENGTH = 0x04
 }
 
 SECTIONS
@@ -26,7 +28,10 @@ SECTIONS
     KEEP(*(.svc_data))
     PROVIDE(__stop_svc_data = .);
   } > RAM
-  
+  .dbl_reset(NOLOAD) :
+  {
+
+  } > DBL_RESET
   .fs_data :
   {
     PROVIDE(__start_fs_data = .);

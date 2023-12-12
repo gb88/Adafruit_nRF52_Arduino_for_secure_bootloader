@@ -25,11 +25,8 @@
 #include "InternalFileSystem.h"
 #include "flash/flash_nrf5x.h"
 
-#ifdef NRF52840_XXAA
-#define LFS_FLASH_ADDR        0xED000
-#else
-#define LFS_FLASH_ADDR        0x6D000
-#endif
+extern uint32_t  __flash_arduino_end[]; // defined in linker
+#define LFS_FLASH_ADDR        (uint32_t)__flash_arduino_end
 
 #define LFS_FLASH_TOTAL_SIZE  (7*FLASH_NRF52_PAGE_SIZE)
 #define LFS_BLOCK_SIZE        128
