@@ -3,10 +3,7 @@
 *.obj
 
 # Visual Studio Code
-.vscode/
-.idea/
-.pio/
-.piopm
+**/.vscode/
 
 # Executables
 *.out
@@ -16,6 +13,7 @@
 /tools/.idea/
 /tools/midi_tests/node_modules
 
+.idea/
 .DS_Store
 *.swp
 /Output
@@ -23,4 +21,4 @@
 # Ignore local overrides of platform.txt and boards.txt,
 /boards.local.txt
 /platform.local.txt
-
+/libraries/**/build/

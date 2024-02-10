@@ -120,14 +120,14 @@ void SwRotaryEncoder::clearAbs(void)
 
 void SwRotaryEncoder::_irq_handler(void)
 {
-  uint8_t bita = digitalRead(_pina);
-  uint8_t bitb = digitalRead(_pinb);
+  uint32_t val = NRF_GPIO->IN;
+  uint8_t bita = bitRead(val, _pina);
 
   if ( bita != _a_last)
   {
     int32_t step;
 
-    if ( bita != bitb )
+    if ( bita != bitRead(val, _pinb) )
     {
       step = 1;
     }else

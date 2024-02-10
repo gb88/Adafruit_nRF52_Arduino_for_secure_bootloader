@@ -36,7 +36,7 @@
 // default is Just Work
 static const ble_gap_sec_params_t _sec_param_default =
 {
-  .bond         = 1,
+  .bond         = 0,
   .mitm         = 0,
   .lesc         = LESC_SUPPORTED,
   .keypress     = 0,
@@ -44,8 +44,8 @@ static const ble_gap_sec_params_t _sec_param_default =
   .oob          = 0,
   .min_key_size = 7,
   .max_key_size = 16,
-  .kdist_own    = { .enc = 1, .id = 1},
-  .kdist_peer   = { .enc = 1, .id = 1}
+  .kdist_own    = { .enc = 0, .id = 0},
+  .kdist_peer   = { .enc = 0, .id = 0}
 };
 
 //------------- IMPLEMENTATION -------------//
@@ -382,7 +382,7 @@ void BLESecurity::_eventHandler(ble_evt_t* evt)
               status->auth_status, status->bonded, status->lesc, *((uint8_t*) &status->kdist_own), *((uint8_t*) &status->kdist_peer));
 
       // Pairing succeeded --> save encryption keys ( Bonding )
-      if (BLE_GAP_SEC_STATUS_SUCCESS == status->auth_status)
+     /* if (BLE_GAP_SEC_STATUS_SUCCESS == status->auth_status)
       {
         if (!status->kdist_peer.id)
         {
@@ -392,7 +392,7 @@ void BLESecurity::_eventHandler(ble_evt_t* evt)
         }
 
         conn->saveBondKey(&_bond_keys);
-      }
+      }*/
 
       // Invoke callback
       if (_complete_cb) ada_callback(NULL, 0, _complete_cb, conn_hdl, status->auth_status);

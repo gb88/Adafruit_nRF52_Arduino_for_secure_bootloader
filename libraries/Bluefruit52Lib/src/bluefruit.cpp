@@ -85,9 +85,20 @@ void usb_softdevice_post_enable(void)
   // Note: Detect event is possibly handled by usb_hardware_init() however depending on how fast
   // Bluefruit.begin() is called, Ready event may or may not be handled before we disable the nrfx_power.
   //    USBPULLUP not enabled -> Ready event not yet handled
+
+
   if ( (usb_reg & POWER_USBREGSTATUS_OUTPUTRDY_Msk) && (NRF_USBD->USBPULLUP == 0) )
   {
-    tusb_hal_nrf_power_event(NRFX_POWER_USB_EVT_READY);
+	 if ( !NRF_USBD->USBPULLUP)
+	 {
+	  uint16_t count = 0;
+	  // Waiting for USBD peripheral enabled
+      while ( !(USBD_EVENTCAUSE_READY_Msk & NRF_USBD->EVENTCAUSE) && count < 65500) {
+		count++;
+	  }
+	  if(count < 65500)
+		tusb_hal_nrf_power_event(NRFX_POWER_USB_EVT_READY);
+	 }
   }
 }
 
